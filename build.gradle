@@ -1,0 +1,135 @@
+apply plugin: 'groovy'
+apply plugin: 'cobertura'
+
+
+group = 'kata.seeds'
+jar.baseName = 'groovy-gradle-seed'
+archivesBaseName = 'groovy-gradle-seed'
+version = '0.1.0-SNAPSHOT'
+
+
+apply from: 'file:gradle/groovydoc.gradle'
+
+
+ext.groovyVersion = System.getenv('GROOVY_VERSION')?: '2.4.12'
+
+
+println "Using Groovy ${groovyVersion}"
+println "Using Gradle ${GradleVersion.current().getVersion()}"
+println "Using Java ${org.gradle.internal.jvm.Jvm.current()}"
+println "Building ${archivesBaseName}-${version}"
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.saliman:gradle-cobertura-plugin:2.2.6'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.3.1'
+    }
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    testCompile 'junit:junit:4.11'
+}
+
+
+test {
+  // show standard out and standard error of the test JVM(s) on the console
+  testLogging.showStandardStreams = true
+
+  // set heap size for the test JVM(s)
+  minHeapSize = '128m'
+  maxHeapSize = '512m'
+
+  // set JVM arguments for the test JVM(s)
+  jvmArgs '-XX:MaxPermSize=256m'
+
+  // listen to events in the test execution lifecycle
+  beforeTest { descriptor ->
+     logger.lifecycle('Running test: ' + descriptor)
+  }
+
+  // listen to standard out and standard error of the test JVM(s)
+  onOutput { descriptor, event ->
+     logger.lifecycle('Test: ' + descriptor + ' produced standard out/err: ' + event.message )
+  }
+}
+
+
+//http://jdpgrailsdev.github.io/blog/2014/04/29/gradle_cobertura.html
+//https://github.com/stevesaliman/gradle-cobertura-plugin/blob/master/usage.md
+cobertura {
+    //fix cobertura version
+    //https://github.com/stevesaliman/gradle-cobertura-plugin/issues/72
+    //coberturaVersion = '2.1.1'
+    //coberturaVersion = '2.0.3'
+    coverageFormats = ['html', 'xml']
+    coverageIgnoreTrivial = true
+    coverageIgnores = ['org.slf4j.Logger.*']
+    coverageExcludes = ['.*package-info.*', 'net\\.gleske\\.jervis\\.exceptions\\..*']
+
+    //coberturaCheck values 80% (./gradlew coberturaCheck test)
+    //coverageCheckBranchRate = 80
+    //coverageCheckLineRate = 80
+    coverageCheckPackageBranchRate = 50
+    coverageCheckPackageLineRate = 80
+    coverageCheckTotalBranchRate = 50
+    coverageCheckTotalLineRate = 80
+    coverageCheckHaltOnFailure = true
+
+}
+test.finalizedBy(project.tasks.cobertura)
+
+
+//disable optimizations for accurate branch coverage
+//http://pbetkier.blogspot.com/2014/08/groovy-code-coverage-issues.html
+gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask(':cobertura')) {
+        compileGroovy.groovyOptions.optimizationOptions.all = false
+    }
+}
+
+
+//http://swalsh.org/blog/2014/07/17/running-the-groovy-console-from-gradle/
+task( console, dependsOn: "classes", type: JavaExec ) {
+    main = "groovy.ui.Console"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+
+//http://www.gradle.org/docs/current/userguide/gradle_wrapper.html
+//generate gradlew with: gradle wrapper
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.2'
+}
+
+
+//Maven Central uploads
+task javadocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'javadoc'
+    from groovydoc.destinationDir
+}
+
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+
+//dependencies for building a jar
+jar.dependsOn tasks.findAll { task -> task.name.endsWith('Jar') }
+
+
+artifacts {
+    archives javadocJar, sourcesJar
+}

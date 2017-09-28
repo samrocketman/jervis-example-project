@@ -1,0 +1,39 @@
+language: groovy
+
+
+script: ./gradlew clean check cobertura groovydoc Jar
+
+
+#matrix build across different versions of Groovy
+env:
+  #cobertura coverage accuracy
+  - GROOVY_VERSION="1.8.9"
+  - GROOVY_VERSION="2.4.12"
+
+
+#filter branches which should be automatically built
+branches:
+  only:
+    - master
+    - nonmatrix
+
+
+#collect build artifacts
+jenkins:
+  stash:
+    - name: artifacts
+      includes: build/libs/*.jar
+      matrix_axis:
+        env: GROOVY_VERSION="2.4.12"
+    - name: junit
+      includes: build/test-results/*.xml
+      matrix_axis:
+        env: GROOVY_VERSION="2.4.12"
+    - name: cobertura
+      includes: build/reports/cobertura/coverage.xml
+      matrix_axis:
+        env: GROOVY_VERSION="1.8.9"
+  collect:
+    artifacts: build/libs/*.jar
+    cobertura: build/reports/cobertura/coverage.xml
+    junit: build/test-results/*.xml
