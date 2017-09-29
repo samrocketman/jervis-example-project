@@ -8,7 +8,7 @@ pipeline {
     }
     stages {
         stage('Simulated deploy') {
-            when { branch 'jervis_simple' }
+            when { branch 'master' }
             steps {
                 sh 'env | LC_ALL=C sort'
                 unstash 'artifacts'
