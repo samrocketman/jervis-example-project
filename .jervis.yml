@@ -26,7 +26,7 @@ jenkins:
       matrix_axis:
         env: GROOVY_VERSION="2.4.12"
     - name: junit
-      includes: build/test-results/*.xml
+      includes: build/test-results/**/*.xml
       matrix_axis:
         env: GROOVY_VERSION="2.4.12"
     - name: cobertura
@@ -36,4 +36,4 @@ jenkins:
   collect:
     artifacts: build/libs/*.jar
     cobertura: build/reports/cobertura/coverage.xml
-    junit: build/test-results/*.xml
+    junit: build/test-results/**/*.xml
