@@ -24,3 +24,4 @@ Documentation for the CI build is located at:
 [bootstrap]: https://github.com/samrocketman/jenkins-bootstrap-jervis
 [jervis]: https://github.com/samrocketman/jervis
 [kata-seed]: https://github.com/kata-seeds/groovy-gradle-seed
+test
