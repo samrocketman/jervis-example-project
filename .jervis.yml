@@ -15,8 +15,9 @@ env:
 branches:
   only:
     - master
-    - nonmatrix
-
+    - /^release-.*$/
+  except:
+    - /^.*-pre$/
 
 #collect build artifacts
 jenkins:
