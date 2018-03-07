@@ -17,6 +17,7 @@ branches:
     - master
     - /^release-.*$/
   except:
+    - release-1.2
     - /^.*-pre$/
 
 #collect build artifacts
