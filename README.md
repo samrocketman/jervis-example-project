@@ -21,6 +21,8 @@ Documentation for the CI build is located at:
 - https://github.com/samrocketman/jervis/wiki
 - https://github.com/samrocketman/jervis/wiki/Pipeline-support
 
+A silly change
+
 [bootstrap]: https://github.com/samrocketman/jenkins-bootstrap-jervis
 [jervis]: https://github.com/samrocketman/jervis
 [kata-seed]: https://github.com/kata-seeds/groovy-gradle-seed
