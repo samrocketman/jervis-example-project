@@ -22,4 +22,7 @@ class PersonTest extends GroovyTestCase {
         assert 'Hello, friend!' == person.greeting
         assert 'Hello, friend!' == person.greet()
     }
+    @Test public void test_Person_greet_fail() {
+        assert 'goodbye' == person.greet()
+    }
 }
