@@ -20,6 +20,6 @@ branches:
 #collect build artifacts
 jenkins:
   collect:
-    artifacts: build/libs/*.jar
+    #artifacts: build/libs/*.jar
     cobertura: build/reports/cobertura/coverage.xml
     junit: build/test-results/**/*.xml
