@@ -21,6 +21,7 @@ branches:
 jenkins:
   stash:
     - name: artifacts
+      includes: build/libs/*.jar
       allowEmpty: true
   collect:
     artifacts: build/libs/*.jar
