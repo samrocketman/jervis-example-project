@@ -21,8 +21,7 @@ branches:
 jenkins:
   stash:
     - name: artifacts
-      includes: build/libs/*.jar
-      allowEmpty: true
+      allowEmptyArchive: true
   collect:
     artifacts: build/libs/*.jar
     cobertura: build/reports/cobertura/coverage.xml
