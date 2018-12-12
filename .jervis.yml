@@ -19,7 +19,10 @@ branches:
 
 #collect build artifacts
 jenkins:
+  stash:
+    - name: artifacts
+      allowEmpty: true
   collect:
-    #artifacts: build/libs/*.jar
+    artifacts: build/libs/*.jar
     cobertura: build/reports/cobertura/coverage.xml
     junit: build/test-results/**/*.xml
