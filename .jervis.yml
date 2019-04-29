@@ -16,7 +16,6 @@ branches:
   only:
     - master
     - /^release-.*$/
-    - custom-branch
   except:
     - release-1.2
     - /^.*-pre$/
