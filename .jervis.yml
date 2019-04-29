@@ -20,6 +20,9 @@ branches:
   except:
     - release-1.2
     - /^.*-pre$/
+tags:
+  only:
+    - /[0-9.]+/
 
 #collect build artifacts
 jenkins:
