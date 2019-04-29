@@ -1,5 +1,7 @@
 # Jervis Example Project
 
+a dummy change
+
 This project serves as a dummy project to test GitHub integration changes made
 to:
 
