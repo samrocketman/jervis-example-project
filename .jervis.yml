@@ -14,7 +14,7 @@ env:
 #filter branches which should be automatically built
 branches:
   only:
-    - master
+    - main
     - /^release-.*$/
   except:
     - release-1.2
