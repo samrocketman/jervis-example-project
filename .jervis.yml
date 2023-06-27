@@ -11,6 +11,7 @@ env:
   #cobertura coverage accuracy
   - GROOVY_VERSION="1.8.9"
   - GROOVY_VERSION="2.4.12"
+  - GROOVY_VERSION="2.4.21"
 
 
 #filter branches which should be automatically built
